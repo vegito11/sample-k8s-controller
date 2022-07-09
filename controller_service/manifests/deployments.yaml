@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    managed.by: expose-controller
+  labels:
+    app: authsync
+  name: autoexposer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nginx1
+    spec:
+      containers:
+      - image: nginx
+        name: autoexposer

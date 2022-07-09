@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: common-config
+  labels:
+    app: common
+data:
+  config.ini: |
+    username = test
+    url = https://test.com
+    region = ap-south-11

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-reload
+  labels:
+    app: nginx-reload
+    meta.reloader.sh/cm-name: "common-config"
+spec:
+  selector:
+    matchLabels:
+      app: nginx-reload
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nginx-reload
+    spec:
+      containers:
+      - image:  nginx:alpine
+        name: nginx-reload
+        resources:
+          requests:
+            cpu: "20m"
+            memory: "55M"
+        ports:
+        - containerPort:  5000
+          name: nginx-reload
+        volumeMounts:
+        - mountPath: /data
+          name: config-file
+      volumes:
+        - name: config-file
+          configMap: 
+            name: common-config
